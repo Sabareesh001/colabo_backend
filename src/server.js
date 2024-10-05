@@ -2,22 +2,23 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv').config();
-const tagroutes = require("./routes/tag_routes")
-const roadmaproutes = require("./routes/roadmap_routes")
-const goalroutes = require("./routes/goal_routes")
-const db = require('../models');
+// const sequelize = require('../config');
+const goalsPost = require('./routes/goals.route');
+const getrouter = require("./routes/getroutes")
 
-const app = express();
+const app = express();  
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const getController = require('./controllers/getcontroller');
+const db = require('../models');
 // app.use("/api", getController);
 // app.use("/api/v1/get",routes)
-// app.use("/api/v1/get", getrouter)
+app.use("/api/v1/get", getrouter)
 
-app.use("/api/v1/", tagroutes, roadmaproutes, goalroutes)
+app.use("/api/v1/post", goalsPost)
 
 app.get('/', (req, res) => {
 
@@ -25,7 +26,7 @@ app.get('/', (req, res) => {
 })
 
 app.get("/", (req, res) => {
-    res.send("Hello World!");
+  res.send("Hello World!");
 });
 
 app.listen(process.env.PORT, () => {
