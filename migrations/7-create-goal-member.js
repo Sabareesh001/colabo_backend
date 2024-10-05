@@ -11,20 +11,21 @@ module.exports = {
       },
       goal_id: {
         type: Sequelize.INTEGER,
-        references:{
-          model:'goals'
+        references: {
+          model: 'goals'
         },
-        key:'id'
+        key: 'id'
       },
       member_id: {
         type: Sequelize.INTEGER,
-        references:{
-          model:'users'
+        references: {
+          model: 'users'
         },
-        key:'id'
+        key: 'id'
       },
       is_owner: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       is_assignee: {
         type: Sequelize.BOOLEAN
@@ -37,10 +38,10 @@ module.exports = {
       },
       deleted_by: {
         type: Sequelize.INTEGER,
-        references:{
-          model:'users'
+        references: {
+          model: 'users'
         },
-        key:'id'
+        key: 'id'
       },
       deleted_at: {
         type: Sequelize.DATE
