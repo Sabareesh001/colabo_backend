@@ -1,5 +1,5 @@
 const { Sequelize } = require("sequelize");
-const dbConfig = require("./config.json");
+const dbConfig = require("../../config/config.json");
 
 const sequelize = new Sequelize("colabo", "postgres", "suresh", {
   dialect: "postgres",
