@@ -1,3 +1,4 @@
+const { where } = require("sequelize");
 const { goals } = require("../../models");
 const goalsPost = async (req, res) => {
   const { name, description, start_date, end_date, roadmap_id, tag_id } =
@@ -29,6 +30,22 @@ const goalsPost = async (req, res) => {
   res.send(newgoal);
 };
 
+const getallgoals = async (req, res) => {
+  try {
+
+    const data = await goals.findAll({
+      where: {
+
+      }
+
+    })
+    console.log(data)
+    res.send(data)
+  } catch (error) {
+    console.log(error);
+    res.status(403).json(error)
+  }
+}
 module.exports = {
   goalsPost,
 };
