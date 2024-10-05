@@ -6,7 +6,7 @@ const dotenv = require('dotenv').config();
 const goalsPost = require('./routes/goals.route');
 const getrouter = require("./routes/getroutes")
 
-const app = express();
+const app = express();  
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -25,6 +25,9 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 })
 
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
 
 app.listen(process.env.PORT, () => {
     db.sequelize.authenticate()
