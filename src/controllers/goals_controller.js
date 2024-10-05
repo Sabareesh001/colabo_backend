@@ -1,3 +1,4 @@
+const { where } = require("sequelize");
 const { goals } = require("../../models");
 function ToTitleCase(str) {
   return str.replace(/\w\S*/g, function (txt) {
@@ -34,6 +35,22 @@ const goalsPost = async (req, res) => {
   res.send(newgoal);
 };
 
+const getallgoals = async (req, res) => {
+  try {
+
+    const data = await goals.findAll({
+      where: {
+
+      }
+
+    })
+    console.log(data)
+    res.send(data)
+  } catch (error) {
+    console.log(error);
+    res.status(403).json(error)
+  }
+}
 module.exports = {
   goalsPost,
 };

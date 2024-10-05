@@ -5,6 +5,10 @@ require('dotenv').config();
 const tagroutes = require("./routes/tag_routes")
 const roadmaproutes = require("./routes/roadmap_routes")
 const goalroutes = require("./routes/goal_routes")
+const userroutes = require("./routes/user_routes")
+const actionroutes = require("./routes/action_routes")
+
+
 const db = require('../models');
 
 const app = express();
@@ -17,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // app.use("/api/v1/get",routes)
 // app.use("/api/v1/get", getrouter)
 
-app.use("/api/v1/", tagroutes, roadmaproutes, goalroutes)
+app.use("/api/v1/", tagroutes, roadmaproutes, goalroutes, userroutes, actionroutes)
 
 app.get('/', (req, res) => {
 

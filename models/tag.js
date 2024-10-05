@@ -15,8 +15,14 @@ module.exports = (sequelize, DataTypes) => {
   }
   Tag.init({
     name: DataTypes.STRING,
-    is_active: DataTypes.BOOLEAN,
-    is_deleted: DataTypes.BOOLEAN,
+    is_active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    },
+    is_deleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
     deleted_by: DataTypes.INTEGER,
     deleted_at: DataTypes.DATE
   }, {
