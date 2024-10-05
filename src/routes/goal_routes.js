@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {goalsPost} = require('../controllers/goals.controller');
 
-router.post('/', goalsPost );
+router.post('/goal', goalsPost );
 
 
 module.exports = router

@@ -14,11 +14,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const getController = require('./controllers/getcontroller');
 const db = require('../models');
-// app.use("/api", getController);
-// app.use("/api/v1/get",routes)
-app.use("/api/v1/get", getrouter)
 
-app.use("/api/v1/post", goalsPost)
+app.use("/api/v1/", getrouter)
 
 app.get('/', (req, res) => {
 
