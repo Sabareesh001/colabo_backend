@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "postgres",
-    "password": "karthick",
+    "password": "suresh",
     "database": "colabo",
     "host": "localhost",
     "dialect": "postgres"
