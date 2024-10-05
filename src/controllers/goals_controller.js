@@ -8,7 +8,7 @@ function ToTitleCase(str) {
 const goalsPost = async (req, res) => {
   const { name, description, start_date, end_date, roadmap_id, tag_id } =
     req.body;
-
+console.log(req.body)
   const TitleCaseName = ToTitleCase(name);
 
   // Check if goal name already exists
@@ -40,7 +40,8 @@ const getallgoals = async (req, res) => {
 
     const data = await goals.findAll({
       where: {
-
+        is_deleted:false,
+        is_active:true
       }
 
     })
@@ -53,4 +54,5 @@ const getallgoals = async (req, res) => {
 }
 module.exports = {
   goalsPost,
+  getallgoals
 };
