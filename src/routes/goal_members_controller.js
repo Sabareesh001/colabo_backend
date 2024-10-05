@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const GoalMembersController = require("../controllers/goal_members_controller");
+const MemberController = require("../controllers/goal_members_controller");
 
-router.get("/goalmembers", GoalMembersController.ExistingMembers)
+router.get("/goalmembers", MemberController.Members);
 
 module.exports = router;
