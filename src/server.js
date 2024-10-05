@@ -1,11 +1,16 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const dotenv = require('dotenv').config();
-// const sequelize = require('../config');
-const goalsPost = require('./routes/goal_routes');
-const getrouter = require("./routes/roadmap_routes")
-const getController = require('./routes/goal_members_controller');
+require('dotenv').config();
+const tagroutes = require("./routes/tag_routes")
+const roadmaproutes = require("./routes/roadmap_routes")
+const goalroutes = require("./routes/goal_routes")
+const userroutes = require("./routes/user_routes")
+const actionroutes = require("./routes/action_routes")
+const goalmembers = require("./routes/goal_members_controller")
+
+
+const db = require('../models');
 
 const app = express();  
 
@@ -13,13 +18,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const db = require('../models');
-// app.use("/api", getController);
-// app.use("/api/v1/get",routes)
-app.use("/api/v1/get", getrouter)
-app.use("/api/v1/get", getController)
-
-app.use("/api/v1/post", goalsPost)
+app.use("/api/v1", tagroutes, roadmaproutes, goalroutes, userroutes, actionroutes,goalmembers)
 
 app.get('/', (req, res) => {
 
