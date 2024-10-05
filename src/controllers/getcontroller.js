@@ -1,4 +1,4 @@
-const { master_goal_roadmaps } = require("../../models");
+const { master_goal_roadmaps, tags } = require("../../models");
 
 
 const getroadmaps = async (req, res) => {
@@ -11,4 +11,13 @@ const getroadmaps = async (req, res) => {
         res.status(403).json(error)
     }
 }
-module.exports = { getroadmaps }
+const gettags = async (req, res) => {
+    try {
+        let data = await tags.findAll()
+        res.send(data)
+    } catch (error) {
+        console.log(error)
+        res.status(403).json(error)
+    }
+}
+module.exports = { getroadmaps, gettags }
