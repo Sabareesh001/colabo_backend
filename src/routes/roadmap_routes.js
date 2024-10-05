@@ -1,7 +1,7 @@
 const express = require("express");
+const { getroadmaps } = require("../controllers/roadmaps_controller");
 const router = express.Router();
-const GetController = require("../controllers/roadmaps_controller");
-router.get("/roadmap", GetController.getroadmaps)
-router.get("/tags", GetController.gettags)
+router.get("/getroadmap", getroadmaps)
+
 
 module.exports = router;
