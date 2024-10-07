@@ -7,8 +7,10 @@ function ToTitleCase(str) {
 }
 
 const goalsPost = async (req, res) => {
-  const { name, description, start_date, end_date, roadmap_id, tag_id } =
-    req.body;
+  try{
+    
+    const {goal,goal_members,phases,phase_members} = req.body;
+    const { name, description, start_date, end_date, roadmap_id, tag_id } =goal;
 
   if (
     !name ||
@@ -25,7 +27,6 @@ const goalsPost = async (req, res) => {
       .json({ message: "Field should not be empty", success: false });
   }
 
-  try {
     const TitleCaseName = ToTitleCase(name);
 
     // Check if goal name already exists
@@ -50,15 +51,15 @@ const goalsPost = async (req, res) => {
       roadmap_id,
       tag_id,
     });
-
-    res.status(200).json({
-      message: "Goal created successfully",
-      success: true,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(403).json({ message: "Something went wrong", success: false });
+    const goalId = newgoal.id;
+    const modifiedGoalMembers = goal_members.map()
+  
   }
+
+
+    catch(error){
+
+    }
 };
 
 const getallgoals = async (req, res) => {
@@ -87,17 +88,15 @@ const getgoalById = async (req, res) => {
         id,
       },
     });
-    res
-      .status(200)
-      .json({
-        message: "Goal fetched by Id successfully",
-        success: true,
-        data,
-      });
+    res.status(200).json({
+      message: "Goal fetched by Id successfully",
+      success: true,
+      data,
+    });
   } catch (error) {
     console.log(error);
     res.status(403).json({ message: "Something went wrong", success: false });
-  }
+  } 
 };
 
 const deleteGoal = async (req, res) => {

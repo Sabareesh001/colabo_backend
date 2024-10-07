@@ -86,7 +86,7 @@ const updatemembers = async (req, res) => {
         }
       })
     console.log(data);
-    return res.json("Updated Successfully")
+    return res.json({ Message: "Updated Successfully" })
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Internal Server Error" });
