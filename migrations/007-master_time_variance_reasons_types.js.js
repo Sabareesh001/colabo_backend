@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('tags', {
+    await queryInterface.createTable('master_time_variance_reasons_types', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -16,19 +16,6 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue:true
       },
-      is_deleted: {
-        type: Sequelize.BOOLEAN
-      },
-      deleted_by: {
-        type: Sequelize.INTEGER,
-        references:{
-          model:'users'
-        },
-        key:'id'
-      },
-      deleted_at: {
-        type: Sequelize.DATE
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -40,6 +27,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('tags');
+    await queryInterface.dropTable('master_time_variance_reasons_types');
   }
 };

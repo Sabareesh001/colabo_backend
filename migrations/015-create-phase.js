@@ -1,15 +1,8 @@
-"use strict";
-const { Model, Sequelize } = require("sequelize");
-module.exports = (sequelize, DataTypes) => {
-  class Phase extends Model {
-    static associate(models) {
-      this.belongsTo(models.goals, { foreignKey: "goal_id" });
-      this.belongsTo(models.users, { foreignKey: "deleted_by" });
-      this.hasMany(models.phase_members,{foreignKey:"phase_id"});
-    }
-  }
-  Phase.init(
-    {
+'use strict';
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable('phases', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -75,11 +68,9 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: Sequelize.DATE
       }
-    },
-    {
-      sequelize,
-      modelName: "phases",
-    }
-  );
-  return Phase;
+    });
+  },
+  async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable('phases');
+  }
 };

@@ -4,63 +4,58 @@ const {
   Sequelize
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class GoalMember extends Model {
+  class action_tasks extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsTo(models.goals, { foreignKey: 'goal_id' });
-      this.belongsTo(models.users, { foreignKey: 'member_id', as: "User" });
-      this.belongsTo(models.users, { foreignKey: 'deleted_by' });
+      this.hasMany(models.actions,{foreignKey:"action_id"})
+      this.hasMany(models.users,{foreignKey:"deleted_by"})
     }
   }
-  GoalMember.init({
+  action_tasks.init({
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.UUID
+      type: Sequelize.UUID,
     },
-    goal_id: {
+    name: {
+      type: Sequelize.STRING,
+    },
+    action_id: {
       type: Sequelize.UUID,
       references: {
-        model: 'goals',
-        key: 'id'
+        model: "actions",
+        key: "id",
       },
       onDelete: 'cascade',
       onUpdate: 'cascade',
     },
-    member_id: {
-      type: Sequelize.UUID,
-      references: {
-        model: 'users',
-        key: 'id'
-      },
-      onDelete: 'cascade',
-      onUpdate: 'cascade',
+    custom_est_time:{
+      type: Sequelize.DECIMAL(10,2),
     },
-    is_owner: {
+    est_time_id:{
+      type: Sequelize.INTEGER,
+    },
+    act_time:{
+      type: Sequelize.INTEGER,
+    },
+    is_closed: {
       type: Sequelize.BOOLEAN,
-      defaultValue: false
-    },
-    is_assignee: {
-      type: Sequelize.BOOLEAN
-    },
-    is_active: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: true
+      defaultValue:false
     },
     is_deleted: {
       type: Sequelize.BOOLEAN,
-      defaultValue: false
+      defaultValue:false
     },
     deleted_by: {
       type: Sequelize.UUID,
       references: {
-        model: 'users',
-        key: 'id'
+        model: "users",
+        key: "id",
       },
       defaultValue:null,
       onDelete: 'cascade',
@@ -68,28 +63,32 @@ module.exports = (sequelize, DataTypes) => {
     },
     deleted_at: {
       type: Sequelize.DATE,
-      defaultValue:null,
+      defaultValue:null
     },
     created_by: {
       type: Sequelize.UUID,
       references: {
-        model: 'users',
-        key: 'id'
+        model: "users",
+        key: "id",
       },
       onDelete: 'cascade',
       onUpdate: 'cascade',
     },
     createdAt: {
       allowNull: false,
-      type: Sequelize.DATE
+      type: Sequelize.DATE,
     },
     updatedAt: {
       allowNull: false,
-      type: Sequelize.DATE
-    }
+      type: Sequelize.DATE,
+    },
+    is_active: {
+      type: Sequelize.BOOLEAN,
+      defaultValue:true
+    },    
   }, {
     sequelize,
-    modelName: 'goal_members',
+    modelName: 'action_tasks',
   });
-  return GoalMember;
+  return action_tasks;
 };

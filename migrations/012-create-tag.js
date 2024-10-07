@@ -2,28 +2,15 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('phases', {
+    await queryInterface.createTable('tags', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID
       },
       name: {
         type: Sequelize.STRING
-      },
-      goal_id: {
-        type: Sequelize.INTEGER,
-        references:{
-          model:'goals'
-        },
-        key:'id'
-      },
-      start_date: {
-        type: Sequelize.DATE
-      },
-      end_date: {
-        type: Sequelize.DATE
       },
       is_active: {
         type: Sequelize.BOOLEAN,
@@ -33,26 +20,38 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       deleted_by: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references:{
-          model:'users'
+          model:'users',
+          key:'id'
         },
-        key:'id'
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
+        defaultValue:null
+      },
+      created_by: {
+        type: Sequelize.UUID,
+        references:{
+          model:'users',
+          key:'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
       },
       deleted_at: {
         type: Sequelize.DATE
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('phases');
+    await queryInterface.dropTable('tags');
   }
 };

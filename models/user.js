@@ -1,6 +1,7 @@
 'use strict';
 const {
-  Model
+  Model,
+  Sequelize
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -19,10 +20,45 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   User.init({
-    name: DataTypes.STRING,
-    role: DataTypes.INTEGER,
-    user_status: DataTypes.INTEGER,
-    is_active: DataTypes.BOOLEAN
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: Sequelize.UUID
+    },
+    name: {
+      type: Sequelize.STRING
+    },
+    role: {
+      type: Sequelize.UUID,
+      references:{
+        model:'master_user_roles',
+        key:'id'
+      },
+      onDelete: 'cascade',
+      onUpdate: 'cascade',
+    },
+    user_status: {
+      type: Sequelize.UUID,
+      references:{
+        model:'master_user_statuses',
+        key:'id'
+      },
+      onDelete: 'cascade',
+      onUpdate: 'cascade',
+    },
+    is_active: {
+      type: Sequelize.BOOLEAN,
+      defaultValue:true
+    },
+    created_at: {
+      allowNull: false,
+      type: Sequelize.DATE
+    },
+    updated_at: {
+      allowNull: false,
+      type: Sequelize.DATE
+    }
   }, {
     sequelize,
     modelName: 'users',

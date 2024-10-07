@@ -248,7 +248,6 @@ const goalsPost = async (req, res) => {
       if (!phasedata) break;
     }
     if (!phasedata) {
-      // Handle the case where validation fails
       return res.status(404).json({ message: "Missing arguments" });
     }
     const modifiedGoalMembers = goalmembers.map((body) => ({

@@ -1,6 +1,7 @@
 'use strict';
 const {
-  Model
+  Model,
+  Sequelize
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class PhaseMember extends Model {
@@ -16,12 +17,69 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   PhaseMember.init({
-    phase_id: DataTypes.INTEGER,
-    member_id: DataTypes.INTEGER,
-    is_active: {type:DataTypes.BOOLEAN,defaultValue:true},
-    is_deleted: DataTypes.BOOLEAN,
-    deleted_by: DataTypes.INTEGER,
-    deleted_at: DataTypes.DATE
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: Sequelize.UUID
+    },
+    phase_id: {
+      type: Sequelize.UUID,
+      references:{
+        model:'phases',
+        key:'id'
+      },
+      onDelete: 'cascade',
+      onUpdate: 'cascade',
+    },
+    member_id: {
+      type: Sequelize.UUID,
+      references:{
+        model:'users',
+        key:'id'
+      },
+      onDelete: 'cascade',
+      onUpdate: 'cascade',
+    },
+    is_active: {
+      type: Sequelize.BOOLEAN,
+      defaultValue:true
+    },
+    is_deleted: {
+      type: Sequelize.BOOLEAN,
+      defaultValue:false
+    },
+    deleted_by: {
+      type: Sequelize.UUID,
+      references:{
+        model:'users',
+        key:'id'
+      },
+      defaultValue:null,
+      onDelete: 'cascade',
+      onUpdate: 'cascade',
+    },
+    deleted_at: {
+      type: Sequelize.DATE,
+      defaultValue:null
+    },
+    created_by: {
+      type: Sequelize.UUID,
+      references:{
+        model:'users',
+        key:'id'
+      },
+      onDelete: 'cascade',
+      onUpdate: 'cascade',
+    },
+    createdAt: {
+      allowNull: false,
+      type: Sequelize.DATE
+    },
+    updatedAt: {
+      allowNull: false,
+      type: Sequelize.DATE
+    }
   }, {
     sequelize,
     modelName: 'phase_members',

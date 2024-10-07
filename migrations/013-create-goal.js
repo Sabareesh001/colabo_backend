@@ -24,39 +24,57 @@ module.exports = {
       roadmap_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'master_goal_roadmaps'
+          model: 'master_goal_roadmaps',
+          key: 'id'
         },
-        key: 'id'
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
       },
       tag_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'tags'
+          model: 'tags',
+          key: 'id'
         },
-        key: 'id'
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
       },
       is_active: {
         type: Sequelize.BOOLEAN,
         defaultValue:true
       },
       is_deleted: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue:false
       },
       deleted_by: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'users'
+          model: 'users',
+          key: 'id',
         },
-        key: 'id'
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
+        defaultValue:null
       },
       deleted_at: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue:null
       },
-      createdAt: {
+      created_by: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'users',
+          key: 'id',
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
+      },
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       }

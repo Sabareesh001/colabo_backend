@@ -2,33 +2,21 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('users', {
+    await queryInterface.createTable('master_time_variance_reasons', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      type: {
+        type: Sequelize.INTEGER
+      },
       name: {
         type: Sequelize.STRING
       },
-      role: {
-        type: Sequelize.INTEGER,
-        references:{
-          model:'master_user_roles'
-        },
-        key:'id'
-      },
-      user_status: {
-        type: Sequelize.INTEGER,
-        references:{
-          model:'master_user_statuses'
-        },
-        key:'id'
-      },
       is_active: {
-        type: Sequelize.BOOLEAN,
-        defaultValue:true
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,
@@ -41,6 +29,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable('master_time_variance_reasons');
   }
 };

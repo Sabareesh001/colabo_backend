@@ -7,21 +7,25 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID
       },
       goal_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
-          model: 'goals'
+          model: 'goals',
+          key: 'id'
         },
-        key: 'id'
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
       },
       member_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
-          model: 'users'
+          model: 'users',
+          key: 'id'
         },
-        key: 'id'
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
       },
       is_owner: {
         type: Sequelize.BOOLEAN,
@@ -39,14 +43,27 @@ module.exports = {
         defaultValue: false
       },
       deleted_by: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
-          model: 'users'
+          model: 'users',
+          key: 'id'
         },
-        key: 'id'
+        defaultValue:null,
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
       },
       deleted_at: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue:null,
+      },
+      created_by: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'users',
+          key: 'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
       },
       createdAt: {
         allowNull: false,

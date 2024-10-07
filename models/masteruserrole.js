@@ -1,6 +1,7 @@
 'use strict';
 const {
-  Model
+  Model,
+  Sequelize
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class MasterUserRole extends Model {
@@ -15,8 +16,27 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   MasterUserRole.init({
-    name: DataTypes.STRING,
-    is_active: DataTypes.BOOLEAN
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: Sequelize.INTEGER
+    },
+    name: {
+      type: Sequelize.STRING
+    },
+    is_active: {
+      type: Sequelize.BOOLEAN,
+      defaultValue:true
+    },
+    createdAt: {
+      allowNull: false,
+      type: Sequelize.DATE
+    },
+    updatedAt: {
+      allowNull: false,
+      type: Sequelize.DATE
+    }
   }, {
     sequelize,
     modelName: 'master_user_roles',

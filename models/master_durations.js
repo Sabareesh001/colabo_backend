@@ -4,41 +4,44 @@ const {
   Sequelize
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class MasterUserStatus extends Model {
+  class master_durations extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.hasMany(models.users,{foreignKey:"user_status" ,as:"user_data"})
+    //define association here
     }
   }
-  MasterUserStatus.init({
+  master_durations.init({
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
     },
     name: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+    },
+    duration: {
+      type: Sequelize.INTEGER,
+    },
+    createdAt: {
+      allowNull: false,
+      type: Sequelize.DATE,
+    },
+    updatedAt: {
+      allowNull: false,
+      type: Sequelize.DATE,
     },
     is_active: {
       type: Sequelize.BOOLEAN,
       defaultValue:true
-    },
-    createdAt: {
-      allowNull: false,
-      type: Sequelize.DATE
-    },
-    updatedAt: {
-      allowNull: false,
-      type: Sequelize.DATE
-    }
+    },    
   }, {
     sequelize,
-    modelName: 'master_user_statuses',
+    modelName: 'master_durations',
   });
-  return MasterUserStatus;
+  return master_durations;
 };
