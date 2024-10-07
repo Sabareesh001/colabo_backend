@@ -5,7 +5,9 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsTo(models.goals, { foreignKey: "goal_id" });
       this.belongsTo(models.users, { foreignKey: "deleted_by" });
+      this.belongsTo(models.users, { foreignKey: "created_by" });
       this.hasMany(models.phase_members,{foreignKey:"phase_id"});
+      this.hasMany(models.actions,{foreignKey:"goal_phase_id"});
     }
   }
   Phase.init(

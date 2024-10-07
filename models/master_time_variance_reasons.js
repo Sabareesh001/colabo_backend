@@ -5,13 +5,9 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class master_time_variance_reasons extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
+      this.belongsTo(models.master_time_variance_reasons_types, { foreignKey: "type" });
+      this.hasMany(models.action_time_variance_reasons, { foreignKey: "variance_reason_id" });
     }
   }
   master_time_variance_reasons.init({
@@ -22,7 +18,14 @@ module.exports = (sequelize, DataTypes) => {
       type: Sequelize.INTEGER
     },
     type: {
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
+      references: {
+        model: "master_time_variance_reasons_types",
+        key: "id",
+      },
+      onDelete: "cascade",
+      onUpdate: "cascade",
+
     },
     name: {
       type: Sequelize.STRING

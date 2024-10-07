@@ -5,15 +5,11 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class action_task_members extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      this.hasMany(models.action_tasks,{foreignKey:"task_id"})
-      this.hasMany(models.users,{foreignKey:"member_id"})
-      this.hasMany(models.users,{foreignKey:"deleted_by"})
+      this.belongsTo(models.action_tasks,{foreignKey:"task_id"})
+      this.belongsTo(models.users,{foreignKey:"member_id"})
+      this.belongsTo(models.users,{foreignKey:"deleted_by"})
+      this.belongsTo(models.users,{foreignKey:"created_by"})
     }
   }
   action_task_members.init({

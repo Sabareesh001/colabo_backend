@@ -5,13 +5,9 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class master_action_type_statuses extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-        this.hasMany(models.master_action_types,{foreignKey:"action_type_id" })
+        this.belongsTo(models.master_action_types,{foreignKey:"action_type_id" })
+        this.hasMany(models.actions, { foreignKey: "action_type_status_id" });
     }
   }
   master_action_type_statuses.init({

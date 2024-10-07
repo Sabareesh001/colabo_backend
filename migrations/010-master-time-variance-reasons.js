@@ -10,7 +10,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       type: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: "action_time_variance_reasons",
+          key: "id",
+        },
+        onDelete: "cascade",
+        onUpdate: "cascade",
       },
       name: {
         type: Sequelize.STRING

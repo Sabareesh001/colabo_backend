@@ -2,22 +2,22 @@
 const { Model, Sequelize } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class actions extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      this.hasMany(models.master_action_priorities, { foreignKey: "priority" });
+      this.belongsTo(models.master_durations, { foreignKey: "est_time_id" });
+      this.belongsTo(models.master_action_statuses, { foreignKey: "status" });
+      this.belongsTo(models.master_action_priorities, { foreignKey: "priority" });
       this.belongsTo(models.goals, { foreignKey: "goal_id" });
-      this.hasMany(models.master_action_types, {
-        foreignKey: "action_type_id",
-      });
-      this.hasMany(models.phases, { foreignKey: "goal_phase_id" });
-      this.hasMany(models.master_action_type_statuses, {
-        foreignKey: "action_type_status_id",
-      });
-      this.hasMany(models.users, { foreignKey: "deleted_by" });
+      this.belongsTo(models.master_action_types, {foreignKey: "action_type_id"});
+      this.belongsTo(models.phases, { foreignKey: "goal_phase_id" });
+      this.belongsTo(models.master_action_type_statuses, {foreignKey: "action_type_status_id"});
+      this.belongsTo(models.users, { foreignKey: "deleted_by" });
+      this.belongsTo(models.users, { foreignKey: "created_by" });
+
+
+      this.hasMany(models.action_time_variance_reasons,{foreignKey:"action_id"});
+      this.hasMany(models.action_members,{foreignKey:"action_id"});
+      this.hasMany(models.action_tasks,{foreignKey:"action_id"});
+      this.hasMany(models.favorite_actions,{foreignKey:"action_id"});
     }
   }
   actions.init(
@@ -44,13 +44,25 @@ module.exports = (sequelize, DataTypes) => {
         type: Sequelize.DECIMAL(10, 2),
       },
       est_time_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        references: {
+          model: "master_durations",
+          key: "id",
+        },
+        onDelete: "cascade",
+        onUpdate: "cascade",
       },
       act_time: {
         type: Sequelize.INTEGER,
       },
       status: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.UUID,
+        references: {
+          model: "master_action_statuses",
+          key: "id",
+        },
+        onDelete: "cascade",
+        onUpdate: "cascade",
       },
       priority: {
         type: Sequelize.UUID,

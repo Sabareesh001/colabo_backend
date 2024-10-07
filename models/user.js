@@ -13,10 +13,32 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsTo(models.master_user_roles, { foreignKey: 'role' });
       this.belongsTo(models.master_user_statuses, { foreignKey: 'user_status' });
+      this.hasMany(models.goals,{foreignKey:"deleted_by"});
+      this.hasMany(models.goals,{foreignKey:"created_by"});
+      this.hasMany(models.goal_members,{foreignKey:"member_id"});
+      this.hasMany(models.goal_members,{foreignKey:"deleted_by"});
+      this.hasMany(models.goal_members,{foreignKey:"created_by"});
       this.hasMany(models.phases,{foreignKey:"deleted_by"});
-      this.hasMany(models.phase_members,{foreignKey:"deleted_by"});
+      this.hasMany(models.phases,{foreignKey:"created_by"});
       this.hasMany(models.phase_members,{foreignKey:"member_id"});
-
+      this.hasMany(models.phase_members,{foreignKey:"deleted_by"});
+      this.hasMany(models.phase_members,{foreignKey:"created_by"});
+      this.hasMany(models.tags,{foreignKey:"deleted_by"});
+      this.hasMany(models.tags,{foreignKey:"created_by"});
+      this.hasMany(models.actions,{foreignKey:"deleted_by"});
+      this.hasMany(models.actions,{foreignKey:"created_by"});
+      this.hasMany(models.action_members,{foreignKey:"member_id"});
+      this.hasMany(models.action_members,{foreignKey:"deleted_by"});
+      this.hasMany(models.action_members,{foreignKey:"created_by"});
+      this.hasMany(models.action_tasks,{foreignKey:"deleted_by"});
+      this.hasMany(models.action_tasks,{foreignKey:"created_by"});
+      this.hasMany(models.action_task_members,{foreignKey:"member_id"});
+      this.hasMany(models.action_task_members,{foreignKey:"deleted_by"});
+      this.hasMany(models.action_task_members,{foreignKey:"created_by"});
+      this.hasMany(models.action_time_variance_reasons,{foreignKey:"deleted_by"});
+      this.hasMany(models.action_time_variance_reasons,{foreignKey:"created_by"});
+      this.hasMany(models.favorite_actions,{foreignKey:"deleted_by"});
+      this.hasMany(models.favorite_actions,{foreignKey:"created_by"});
     }
   }
   User.init({
