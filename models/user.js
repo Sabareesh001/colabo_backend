@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsTo(models.master_user_roles, { foreignKey: 'role' });
       this.belongsTo(models.master_user_statuses, { foreignKey: 'user_status' });
+      this.hasMany(models.phases,{foreignKey:"deleted_by"});
     }
   }
   User.init({
