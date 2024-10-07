@@ -62,14 +62,33 @@ const GetPhaseByGoal = async (req, res) => {
 
 const AddPhases = async (req, res) => {
   try {
-    const phasedata = req.body.map((phase) => ({
-      ...phase,
-      is_closed: false,
-      is_active: true,
-      is_deleted: false,
-      deleted_by: null,
-      deleted_at: null,
-    }));
+    const phasedata = req.body.map((phase, index) => {
+      const { name, goal_id, start_date, end_date } = phase;
+      const startDate = new Date(start_date);
+      const endDate = new Date(end_date);
+
+      if (!name || !goal_id ||!startDate||!endDate) {
+        throw new Error(`Validation Error: flied required at ${index + 1}`);
+      }
+
+
+      if (startDate=== endDate) {
+        throw new Error(`Validation Error: date not be same in phase ${index + 1}`);
+      }
+
+      if (startDate > endDate) {
+        throw new Error(`Validation Error: 'start_date' must be before 'end_date' in phase ${index + 1}`);
+      }
+
+      return {
+        ...phase,
+        is_closed: false,
+        is_active: true,
+        is_deleted: false,
+        deleted_by: null,
+        deleted_at: null,
+      };
+    });
 
     const phaseInsert = await phases.bulkCreate(phasedata, {
       fields: [
@@ -87,15 +106,20 @@ const AddPhases = async (req, res) => {
 
     res.status(201).json(phaseInsert);
   } catch (error) {
-    console.error("Error inserting phases:", error);
-    res.status(500).send("Error inserting phases");
+    console.error("Error inserting phases:", error.message);
+    res.status(400).json({ error: error.message });
   }
 };
 
+
 const PhaseDelete = async (req, res) => {
   try {
-    const { id } = req.params;  
-    const { deleted_by } = req.body;  
+    const { id } = req.params;
+    const { deleted_by } = req.body;
+
+    if (!deleted_by) {
+      return res.status(400).json({ message: "Validation Error: deleted_by field is required." });
+    }
 
     const phase = await phases.findOne({ where: { id } });
 
@@ -110,7 +134,7 @@ const PhaseDelete = async (req, res) => {
         deleted_at: new Date(),
       },
       {
-        where: { id: id },
+        where: { id },
       }
     );
 
@@ -124,6 +148,7 @@ const PhaseDelete = async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 
 module.exports = { GetAllphases, GetPhase, GetPhaseByGoal, AddPhases, PhaseDelete };
