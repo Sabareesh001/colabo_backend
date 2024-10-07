@@ -9,9 +9,6 @@ function ToTitleCase(str) {
 const goalsPost = async (req, res) => {
   const { name, description, start_date, end_date, roadmap_id, tag_id } =
     req.body;
-  console.log(req.body)
-  // Check if goal name already exists
-  const goalname = await goals.findOne({
 
   if (
     !name ||

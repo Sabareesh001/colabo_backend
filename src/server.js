@@ -22,8 +22,8 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/api/v1", tagroutes, roadmaproutes, goalroutes, userroutes, actionroutes,goalmembers)
-app.use("/api/phases",phases)
+app.use("/api/v1", tagroutes, roadmaproutes, goalroutes, userroutes, actionroutes, goalmembers)
+app.use("/api/phases", phases)
 
 
 app.get('/', (req, res) => {
@@ -36,12 +36,13 @@ app.get("/", (req, res) => {
 });
 
 app.listen(process.env.PORT, () => {
-    console.log(`Server is running on port ${process.env.PORT}`);
-    try {
-        db.sequelize.authenticate()
-        console.log("Database Connection established successfully.");
-      } catch (error) {
-        console.error("Unable to connect to the database:", error);
-      }
+  console.log(`Server is running on port ${process.env.PORT}`);
+  try {
+    db.sequelize.authenticate()
+    swaggerDocs(app, process.env.PORT)
+    console.log("Database Connection established successfully.");
+  } catch (error) {
+    console.error("Unable to connect to the database:", error);
+  }
 
 })
