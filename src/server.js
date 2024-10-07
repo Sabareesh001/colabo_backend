@@ -7,13 +7,16 @@ const roadmaproutes = require("./routes/roadmap_routes")
 const goalroutes = require("./routes/goal_routes")
 const userroutes = require("./routes/user_routes")
 const actionroutes = require("./routes/action_routes")
-const goalmembers = require("./routes/goal_members_controller")
+
 const phases = require("./routes/phasesroutes")
+
+const goalmembers = require("./routes/goal_members_routes")
 
 
 const db = require('../models');
+const swaggerDocs = require('./utils/swagger');
 
-const app = express();  
+const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -22,9 +25,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api/v1", tagroutes, roadmaproutes, goalroutes, userroutes, actionroutes,goalmembers)
 app.use("/api/phases",phases)
 
+
 app.get('/', (req, res) => {
 
-    res.send('Hello World!');
+  res.send('Hello World!');
 })
 
 app.get("/", (req, res) => {
@@ -39,4 +43,5 @@ app.listen(process.env.PORT, () => {
       } catch (error) {
         console.error("Unable to connect to the database:", error);
       }
+
 })
