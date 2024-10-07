@@ -99,6 +99,25 @@ const getgoalById = async (req, res) => {
 const deleteGoal = async (req, res) => {
   const { userID, goalID } = req.body;
 
+  if (!userID || !goalID) {
+    return res
+      .status(400)
+      .json({ message: "userID and goalID are required", success: false });
+  }
+
+  const goalisDeleted = await goals.findOne({
+    where: {
+      id: goalID,
+      is_deleted: true
+    } 
+  })
+
+  if(goalisDeleted){
+    return res
+      .status(400)
+      .json({ message: "Goal already deleted", success: false });
+  }
+   
   try {
     const data = await goals.update(
       {
@@ -124,6 +143,7 @@ const deleteGoal = async (req, res) => {
 };
 
 const editGoal = async (req, res) => {
+
   const {
     goalID,
     name,
@@ -133,48 +153,67 @@ const editGoal = async (req, res) => {
     roadmap_id,
     tag_id,
   } = req.body;
+  
 
-  // if (
-  //   !name ||
-  //   name.length <= 0 ||
-  //   !description ||
-  //   description.length <= 0 ||
-  //   !start_date ||
-  //   !end_date ||
-  //   !roadmap_id ||
-  //   !tag_id
-  // ) {
-  //   return res
-  //     .status(403)
-  //     .json({ message: "Field should not be empty", success: false });
-  // }
-
-  try {
+  const isgoalDeleted = await goals.findOne({
+    where: {
+      id: goalID,
+      is_deleted: true
+    } 
+  })
+  if(isgoalDeleted){
+    return res
+      .status(400)
+      .json({ message: "Goal already deleted", success: false });
+  }
+  const updateData = {}
+  if(name){
     const TitleCaseName = ToTitleCase(name);
+    updateData.name = TitleCaseName;
+  }
+  if(description){
+    updateData.description = description;
+  }
+  if(start_date){
+    updateData.start_date = start_date;
+  }
+  if(end_date){
+    updateData.end_date = end_date;
+  }
+  if(roadmap_id){
+    updateData.roadmap_id = roadmap_id;
+  }
+  if(tag_id){
+    updateData.tag_id = tag_id;
+  }
+  
+  
+  try {
+    
     const data = await goals.update(
-      {
-        name: TitleCaseName,
-        description,
-        start_date,
-        end_date,
-        roadmap_id,
-        tag_id,
-      },
+      updateData,
       {
         where: {
           id: goalID,
         },
       }
     );
+   
+    if(!data[0]){
+      return res
+      .status(400)
+      .json({ message: "field should not be empty", success: false });
+    }  
+
     res
       .status(200)
       .json({ message: "Goal updated successfully", success: true });
   } catch (error) {
     console.log(error);
-    res
-      .status(400)
+    res.status(400)
       .json({ message: "Error while updating Goal ", success: false });
   }
+ 
 };
 
 module.exports = {
