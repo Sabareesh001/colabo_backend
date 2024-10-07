@@ -31,10 +31,12 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       is_active: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
       },
       is_deleted: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       deleted_by: {
         type: Sequelize.INTEGER,

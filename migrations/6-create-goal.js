@@ -23,17 +23,17 @@ module.exports = {
       },
       roadmap_id: {
         type: Sequelize.INTEGER,
-        references:{
-          model:'master_goal_roadmaps'
+        references: {
+          model: 'master_goal_roadmaps'
         },
-        key:'id'
+        key: 'id'
       },
       tag_id: {
         type: Sequelize.INTEGER,
-        references:{
-          model:'tags'
+        references: {
+          model: 'tags'
         },
-        key:'id'
+        key: 'id'
       },
       is_active: {
         type: Sequelize.BOOLEAN
@@ -43,10 +43,10 @@ module.exports = {
       },
       deleted_by: {
         type: Sequelize.INTEGER,
-        references:{
-          model:'users'
+        references: {
+          model: 'users'
         },
-        key:'id'
+        key: 'id'
       },
       deleted_at: {
         type: Sequelize.DATE

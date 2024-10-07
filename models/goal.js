@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsTo(models.users, { foreignKey: 'deleted_by' });
       this.belongsTo(models.tags, { foreignKey: 'tag_id' });
+      this.hasMany(models.goal_members, { foreignKey: "id", as: "Members" })
     }
   }
   Goal.init({

@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.goals, { foreignKey: 'goal_id' });
-      this.belongsTo(models.users, { foreignKey: 'member_id' });
+      this.belongsTo(models.users, { foreignKey: 'member_id', as: "User" });
       this.belongsTo(models.users, { foreignKey: 'deleted_by' });
     }
   }
