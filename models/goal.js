@@ -22,8 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     end_date: DataTypes.DATE,
     roadmap_id: DataTypes.INTEGER,
     tag_id: DataTypes.INTEGER,
-    is_active: { type: DataTypes.BOOLEAN, defaultValue: true },
-    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: true },
+    is_active: {type:DataTypes.BOOLEAN,defaultValue:true},    
+    is_deleted: {type:DataTypes.BOOLEAN,defaultValue:false},
     deleted_by: DataTypes.INTEGER,
     deleted_at: DataTypes.DATE
   }, {
