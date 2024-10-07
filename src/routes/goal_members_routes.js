@@ -4,7 +4,7 @@ const { getMembers, addmembers, removemember, updatemembers } = require("../cont
 
 router.get("/:id/getallgoalmembers", getMembers);
 router.post("/:id/addgoalmembers", addmembers)
-router.post("/:id/updatemembers", updatemembers)
-router.delete("/:id/removegoalmembers", removemember)
+router.put("/:id/updatemembers", updatemembers)
+router.put("/:id/removegoalmembers", removemember)
 
 module.exports = router;

@@ -22,25 +22,44 @@ const getMembers = async (req, res) => {
 };
 const addmembers = async (req, res) => {
   try {
-    const phasedata = req.body.every((data) => {
+    let phasedata = true;
+    let userexits = false;
+    for (const data of req.body) {
       const { member_id, is_owner, is_assignee } = data;
-      if (typeof (member_id) !== "number" || is_assignee === undefined || is_assignee === null || is_owner === undefined || is_owner === null) {
-        return true
+      const checkuser = await goal_members.findOne({
+        where: {
+          goal_id: req.params.id,
+          member_id: member_id
+        }
+      });
+
+      // Check for existence and data type
+      phasedata = phasedata && (
+        typeof member_id === "number" &&
+        typeof is_assignee === "boolean" &&
+        typeof is_owner === "boolean" &&
+        checkuser === null
+      );
+      if (checkuser !== null) {
+        return res.status(404).json({ message: "User already exists" });
       }
-    })
+      if (!phasedata) break;
+    }
+
+    console.log(phasedata);
+
+    if (!phasedata) {
+      // Handle the case where validation fails
+      return res.status(404).json({ message: "Missing arguments" });
+    }
     const upload = req.body.map((body) => ({
       ...body,
       goal_id: req.params.id
     }))
-    // console.log(phasedata)
-    if (phasedata) {
-      return res.status(404).json({ message: "User doesn't exist" });
-    }
-    console.log("hello")
     // const { member_id, is_owner, is_assignee } = req.body;
     const data = await goal_members.bulkCreate(upload)
-    console.log(data);
-    return res.json(data)
+    // console.log(data);
+    return res.json({ Message: "Added Successfully", data: data })
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Internal Server Error" });
@@ -48,7 +67,7 @@ const addmembers = async (req, res) => {
 }
 const updatemembers = async (req, res) => {
   try {
-    const { member_id, is_active, is_owner, is_assignee } = req.body
+    const { member_id, is_active, is_owner, is_assignee, is_deleted } = req.body
     const checkstatus = await goal_members.findOne({
       where: {
         goal_id: req.params.id,
@@ -59,7 +78,7 @@ const updatemembers = async (req, res) => {
       return res.status(404).json({ message: "User doesn't exist" });
     }
     const data = await goal_members.update(
-      { is_active, is_owner, is_assignee },
+      { is_active, is_owner, is_assignee, is_deleted },
       {
         where: {
           goal_id: req.params.id,
@@ -75,7 +94,7 @@ const updatemembers = async (req, res) => {
 }
 const removemember = async (req, res) => {
   try {
-    const { member_id } = req.body;
+    const { member_id, deleted_by } = req.body;
     const checkstatus = await goal_members.findOne({
       where: {
         goal_id: req.params.id,
@@ -87,7 +106,12 @@ const removemember = async (req, res) => {
       return res.status(404).json({ message: "User doesn't exist" });
     }
     const data = await goal_members.update(
-      { is_active: false },
+      {
+        is_deleted: true,
+        is_active: false,
+        deleted_at: Date.now(),
+        deleted_by
+      },
       {
         where: {
           goal_id: req.params.id,
