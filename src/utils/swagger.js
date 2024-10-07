@@ -25,7 +25,7 @@ const options = {
     definition: {
         openapi: "3.0.0",
         info: {
-            title: "KARMA API DOCS",
+            title: "COLABO API DOCS",
             version
         },
         components: {
