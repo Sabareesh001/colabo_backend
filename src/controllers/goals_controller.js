@@ -1,66 +1,10 @@
 const { where } = require("sequelize");
-const { goals } = require("../../models");
+const { goals,goal_members,phases } = require("../../models");
 function ToTitleCase(str) {
   return str.replace(/\w\S*/g, function (txt) {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
   });
 }
-
-const goalsPost = async (req, res) => {
-  try{
-    
-    const {goal,goal_members,phases,phase_members} = req.body;
-    const { name, description, start_date, end_date, roadmap_id, tag_id } =goal;
-
-  if (
-    !name ||
-    name.length <= 0 ||
-    !description ||
-    description.length <= 0 ||
-    !start_date ||
-    !end_date ||
-    !roadmap_id ||
-    !tag_id
-  ) {
-    return res
-      .status(403)
-      .json({ message: "Field should not be empty", success: false });
-  }
-
-    const TitleCaseName = ToTitleCase(name);
-
-    // Check if goal name already exists
-    const goalname = await goals.findOne({
-      where: {
-        name: TitleCaseName,
-      },
-    });
-
-    if (goalname) {
-      return res.status(403).json({
-        message: "Goal name already exists",
-        success: false,
-      });
-    }
-
-    const newgoal = await goals.create({
-      name: TitleCaseName,
-      description,
-      start_date,
-      end_date,
-      roadmap_id,
-      tag_id,
-    });
-    const goalId = newgoal.id;
-    const modifiedGoalMembers = goal_members.map()
-  
-  }
-
-
-    catch(error){
-
-    }
-};
 
 const getallgoals = async (req, res) => {
   try {
@@ -211,6 +155,199 @@ const editGoal = async (req, res) => {
       .json({ message: "Error while updating Goal ", success: false });
   }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const goalsPost = async (req, res) => {
+  try{
+    
+    const {goal,goalmembers,phasesCreate,phase_members} = req.body;
+    const { name, description, start_date, end_date, roadmap_id, tag_id } =goal;
+
+  if (
+    !name ||
+    name.length <= 0 ||
+    !description ||
+    description.length <= 0 ||
+    !start_date ||
+    !end_date ||
+    !roadmap_id ||
+    !tag_id
+  ) {
+    return res
+      .status(403)
+      .json({ message: "Field should not be empty", success: false });
+  }
+
+    const TitleCaseName = ToTitleCase(name);
+
+    const goalname = await goals.findOne({
+      where: {
+        name: TitleCaseName,
+      },
+    });
+
+    if (goalname) {
+      return res.status(403).json({
+        message: "Goal name already exists",
+        success: false,
+      });
+    }
+
+    const newgoal = await goals.create({
+      name: TitleCaseName,
+      description,
+      start_date,
+      end_date,
+      roadmap_id,
+      tag_id,
+    });
+
+    const goalId = newgoal.id;
+
+    let phasedata = true;
+    let userexits = false;
+    for (const data of goalmembers) {
+      const { member_id, is_owner, is_assignee } = data;
+      const checkuser = await goal_members.findOne({
+        where: {
+          goal_id: goalId,
+          member_id: member_id
+        }
+      });
+
+      phasedata = phasedata && (
+        typeof member_id === "number" &&
+        typeof is_assignee === "boolean" &&
+        typeof is_owner === "boolean" &&
+        checkuser === null
+      );
+      if (checkuser !== null) {
+        return res.status(404).json({ message: "User already exists" });
+      }
+      if (!phasedata) break;
+    }
+    if (!phasedata) {
+      // Handle the case where validation fails
+      return res.status(404).json({ message: "Missing arguments" });
+    }
+    const modifiedGoalMembers = goalmembers.map((body) => ({
+      ...body,
+      goal_id: goalId
+    }))
+    const data = await goal_members.bulkCreate(modifiedGoalMembers)
+
+
+    const PhasesData = [];
+    for (const phase of phasesCreate) {
+      const { name, goal_id, start_date, end_date } = phase;
+
+      const existingPhase = await phases.findOne({
+        where: { goal_id: goalId, name: ToTitleCase(name) },
+        raw: true,
+      });
+
+      if (existingPhase) {
+        return res.status(400).json({
+          message: "Validation Error: name already exist for this goal",
+        });
+      }
+
+      if (!name || !goal_id || !start_date || !end_date) {
+        return res
+          .status(400)
+          .json({ message: "Validation Error: field required" });
+      }
+
+      const startDate = new Date(start_date);
+      const endDate = new Date(end_date);
+
+      if (
+        startDate.getHours() === endDate.getHours() &&
+        startDate.getMinutes() === endDate.getMinutes()
+      ) {
+        return res.status(400).json({
+          message:
+            "Validation Error: date and time cannot be the same in phase",
+        });
+      }
+
+      if (startDate > endDate) {
+        return res.status(400).json({
+          message:
+            "Validation Error: 'start_date' must be before 'end_date' in phase",
+        });
+      }
+
+      PhasesData.push({
+        ...phase,
+        name: ToTitleCase(name),
+        is_closed: false,
+        is_active: true,
+        is_deleted: false,
+        deleted_by: null,
+        deleted_at: null,
+      });
+    }
+
+    const phaseInsert = await phases.bulkCreate(PhasesData, {
+      fields: [
+        "name",
+        "goal_id",
+        "start_date",
+        "end_date",
+        "is_closed",
+        "is_active",
+        "is_deleted",
+        "deleted_by",
+        "deleted_at",
+      ],
+    });
+
+    res.status(201).json(phaseInsert);
+  }
+
+
+    catch(error){
+
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports = {
   goalsPost,
