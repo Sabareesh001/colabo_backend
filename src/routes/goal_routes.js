@@ -6,8 +6,10 @@ router.get('/allgoal', getallgoals);
 router.get('/allgoal/:id', getgoalById);
 
 router.post('/creategoal', goalsPost);
-router.post('/goal/soft-delete', deleteGoal);
-router.post('/editgoal', editGoal);
+
+
+router.put('/goal/soft-delete', deleteGoal);
+router.put('/editgoal', editGoal);
 
 
 

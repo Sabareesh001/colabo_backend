@@ -89,7 +89,11 @@ const getgoalById = async (req, res) => {
     });
     res
       .status(200)
-      .json({ message: "Goal fetched by Id successfully", success: true,data });
+      .json({
+        message: "Goal fetched by Id successfully",
+        success: true,
+        data,
+      });
   } catch (error) {
     console.log(error);
     res.status(403).json({ message: "Something went wrong", success: false });
@@ -108,16 +112,16 @@ const deleteGoal = async (req, res) => {
   const goalisDeleted = await goals.findOne({
     where: {
       id: goalID,
-      is_deleted: true
-    } 
-  })
+      is_deleted: true,
+    },
+  });
 
-  if(goalisDeleted){
+  if (goalisDeleted) {
     return res
       .status(400)
       .json({ message: "Goal already deleted", success: false });
   }
-   
+
   try {
     const data = await goals.update(
       {
@@ -143,7 +147,6 @@ const deleteGoal = async (req, res) => {
 };
 
 const editGoal = async (req, res) => {
-
   const {
     goalID,
     name,
@@ -153,67 +156,61 @@ const editGoal = async (req, res) => {
     roadmap_id,
     tag_id,
   } = req.body;
-  
 
   const isgoalDeleted = await goals.findOne({
     where: {
       id: goalID,
-      is_deleted: true
-    } 
-  })
-  if(isgoalDeleted){
+      is_deleted: true,
+    },
+  });
+  if (isgoalDeleted) {
     return res
       .status(400)
       .json({ message: "Goal already deleted", success: false });
   }
-  const updateData = {}
-  if(name){
+  const updateData = {};
+  if (name) {
     const TitleCaseName = ToTitleCase(name);
     updateData.name = TitleCaseName;
   }
-  if(description){
+  if (description) {
     updateData.description = description;
   }
-  if(start_date){
+  if (start_date) {
     updateData.start_date = start_date;
   }
-  if(end_date){
+  if (end_date) {
     updateData.end_date = end_date;
   }
-  if(roadmap_id){
+  if (roadmap_id) {
     updateData.roadmap_id = roadmap_id;
   }
-  if(tag_id){
+  if (tag_id) {
     updateData.tag_id = tag_id;
   }
-  
-  
+
   try {
-    
-    const data = await goals.update(
-      updateData,
-      {
-        where: {
-          id: goalID,
-        },
-      }
-    );
-   
-    if(!data[0]){
+    const data = await goals.update(updateData, {
+      where: {
+        id: goalID,
+      },
+    });
+
+    if (!data[0]) {
       return res
-      .status(400)
-      .json({ message: "field should not be empty", success: false });
-    }  
+        .status(400)
+        .json({ message: "field should not be empty", success: false });
+    }
 
     res
       .status(200)
       .json({ message: "Goal updated successfully", success: true });
   } catch (error) {
     console.log(error);
-    res.status(400)
+    res
+      .status(400)
       .json({ message: "Error while updating Goal ", success: false });
   }
- 
 };
 
 module.exports = {
