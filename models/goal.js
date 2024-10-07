@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.users, { foreignKey: 'deleted_by' });
       this.belongsTo(models.tags, { foreignKey: 'tag_id' });
       this.hasMany(models.phases,{foreignKey:"goal_id",as:"phase"})
+      this.hasMany(models.goal_members, { foreignKey: "id", as: "Members" })
     }
   }
   Goal.init({
@@ -23,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     roadmap_id: DataTypes.INTEGER,
     tag_id: DataTypes.INTEGER,
     is_active: {type:DataTypes.BOOLEAN,defaultValue:true},    
-    is_deleted: {type:DataTypes.BOOLEAN,defaultValue:true},
+    is_deleted: {type:DataTypes.BOOLEAN,defaultValue:false},
     deleted_by: DataTypes.INTEGER,
     deleted_at: DataTypes.DATE
   }, {
