@@ -1,10 +1,10 @@
 {
   "development": {
-    "username": "root",
+    "username": "postgres",
     "password": "2055",
     "database": "colabo",
     "host": "localhost",
-    "dialect": "mysql"
+    "dialect": "postgres"
   },
   "test": {
     "username": "root",

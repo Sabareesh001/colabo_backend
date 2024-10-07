@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsTo(models.users, { foreignKey: 'deleted_by' });
       this.belongsTo(models.tags, { foreignKey: 'tag_id' });
+      this.belongsTo(models.users, { foreignKey: 'deleted_by' });
     }
   }
   Goal.init({
