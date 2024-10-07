@@ -11,6 +11,7 @@ const goalmembers = require("./routes/goal_members_routes")
 
 
 const db = require('../models');
+const swaggerDocs = require('./utils/swagger');
 
 const app = express();
 
@@ -31,5 +32,6 @@ app.get("/", (req, res) => {
 
 app.listen(process.env.PORT, () => {
   db.sequelize.authenticate()
+  swaggerDocs(app, process.env.PORT)
   console.log(`Server is running on port ${process.env.PORT}`);
 })
