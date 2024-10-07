@@ -5,16 +5,25 @@ require('dotenv').config();
 const tagroutes = require("./routes/tag_routes")
 const roadmaproutes = require("./routes/roadmap_routes")
 const goalroutes = require("./routes/goal_routes")
+const userroutes = require("./routes/user_routes")
+const actionroutes = require("./routes/action_routes")
+const goalmembers = require("./routes/goal_members_controller")
+
+
 const db = require('../models');
 
-const app = express();
+const app = express();  
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+<<<<<<< HEAD
 
 app.use("/api/v1/", tagroutes, roadmaproutes, goalroutes)
+=======
+app.use("/api/v1", tagroutes, roadmaproutes, goalroutes, userroutes, actionroutes,goalmembers)
+>>>>>>> db88dad499a8ab1817e26ae1844dfbb607667e43
 
 app.get('/', (req, res) => {
 
@@ -22,7 +31,7 @@ app.get('/', (req, res) => {
 })
 
 app.get("/", (req, res) => {
-    res.send("Hello World!");
+  res.send("Hello World!");
 });
 console.log(process.env.PORT)
 const PORT=process.env.PORT || 8080;
