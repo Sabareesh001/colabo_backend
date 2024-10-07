@@ -89,7 +89,7 @@ const getgoalById = async (req, res) => {
     });
     res
       .status(200)
-      .json({ message: "Goal fetched by Id successfully", success: true });
+      .json({ message: "Goal fetched by Id successfully", success: true,data });
   } catch (error) {
     console.log(error);
     res.status(403).json({ message: "Something went wrong", success: false });
@@ -133,6 +133,21 @@ const editGoal = async (req, res) => {
     roadmap_id,
     tag_id,
   } = req.body;
+
+  // if (
+  //   !name ||
+  //   name.length <= 0 ||
+  //   !description ||
+  //   description.length <= 0 ||
+  //   !start_date ||
+  //   !end_date ||
+  //   !roadmap_id ||
+  //   !tag_id
+  // ) {
+  //   return res
+  //     .status(403)
+  //     .json({ message: "Field should not be empty", success: false });
+  // }
 
   try {
     const TitleCaseName = ToTitleCase(name);
