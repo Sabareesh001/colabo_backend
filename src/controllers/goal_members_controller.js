@@ -22,13 +22,23 @@ const getMembers = async (req, res) => {
 };
 const addmembers = async (req, res) => {
   try {
-    const { member_id, is_owner, is_assignee } = req.body;
-    const data = await goal_members.create({
-      goal_id: req.params.id,
-      member_id,
-      is_owner,
-      is_assignee
+    const phasedata = req.body.every((data) => {
+      const { member_id, is_owner, is_assignee } = data;
+      if (typeof (member_id) !== "number" || is_assignee === undefined || is_assignee === null || is_owner === undefined || is_owner === null) {
+        return true
+      }
     })
+    const upload = req.body.map((body) => ({
+      ...body,
+      goal_id: req.params.id
+    }))
+    // console.log(phasedata)
+    if (phasedata) {
+      return res.status(404).json({ message: "User doesn't exist" });
+    }
+    console.log("hello")
+    // const { member_id, is_owner, is_assignee } = req.body;
+    const data = await goal_members.bulkCreate(upload)
     console.log(data);
     return res.json(data)
   } catch (error) {
