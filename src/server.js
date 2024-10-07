@@ -18,12 +18,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-<<<<<<< HEAD
-
-app.use("/api/v1/", tagroutes, roadmaproutes, goalroutes)
-=======
 app.use("/api/v1", tagroutes, roadmaproutes, goalroutes, userroutes, actionroutes,goalmembers)
->>>>>>> db88dad499a8ab1817e26ae1844dfbb607667e43
 
 app.get('/', (req, res) => {
 
