@@ -72,7 +72,7 @@ const getallgoals = async (req, res) => {
     console.log(data);
     res
       .status(200)
-      .json({ message: "All Goals fetched successfully", success: true });
+      .json({ message: "All Goals fetched successfully", success: true, data });
   } catch (error) {
     console.log(error);
     res.status(403).json(error);
