@@ -1,21 +1,20 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const dotenv = require('dotenv').config();
-// const sequelize = require('../config');
-const goalsPost = require('./routes/goals.route');
-const getrouter = require("./routes/getroutes")
+require('dotenv').config();
+const tagroutes = require("./routes/tag_routes")
+const roadmaproutes = require("./routes/roadmap_routes")
+const goalroutes = require("./routes/goal_routes")
+const db = require('../models');
 
-const app = express();  
+const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const getController = require('./controllers/getcontroller');
-const db = require('../models');
 
-app.use("/api/v1/", getrouter)
+app.use("/api/v1/", tagroutes, roadmaproutes, goalroutes)
 
 app.get('/', (req, res) => {
 
@@ -23,10 +22,11 @@ app.get('/', (req, res) => {
 })
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+    res.send("Hello World!");
 });
-
-app.listen(process.env.PORT, () => {
+console.log(process.env.PORT)
+const PORT=process.env.PORT || 8080;
+app.listen(PORT, () => {
     db.sequelize.authenticate()
-    console.log(`Server is running on port ${process.env.PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 })
