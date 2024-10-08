@@ -14,10 +14,9 @@ const goalmembers = require("./routes/goal_members_routes")
 const phaseMembersRoutes = require('./routes/phase_member_routes')
 
 const db = require('../models');
-const swaggerDocs = require('./utils/swagger');
-
+const swaggerDocs= require('./utils/swagger')
 const app = express();
-
+swaggerDocs(app,8080)
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

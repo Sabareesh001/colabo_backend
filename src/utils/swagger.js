@@ -25,7 +25,7 @@ const options = {
     definition: {
         openapi: "3.0.0",
         info: {
-            title: "KARMA API DOCS",
+            title: "COLABO API DOCS",
             version
         },
         components: {
@@ -42,28 +42,18 @@ const options = {
             bearerAuth: []
         }]
     },
-    apis: ["./src/routes/*.js"],
+    apis: [path.join(__dirname, '../routes/*.js')],
 }
 
 
 
 const swaggerSpec = swaggerJsdoc(options);
-// swaggerSpec.components = {
 
-//     // schemas: {
-//     //     goalMembersResponse: goalMembersResponse,
-//     //     goalMembersRequest: goalMembersRequest,
-//     //     surveyPost: surveyinput,
-//     //     surveyresponse: surveyresponse,
-//     //     transactionrequest: TransactionRequest,
-//     //     transactionresp: Transactionresponse
-//     // }
-// };
 const swaggerDocs = (app, port) => {
     //swagger page
     app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
     //Docs in JSON format
-    app.get("docs.json", (req, res) => {
+    app.get("/docs.json", (req, res) => {
         res.setHeader("Content-Type", "application/json")
         res.send(swaggerSpec)
     })
