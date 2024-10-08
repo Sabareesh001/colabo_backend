@@ -1,4 +1,3 @@
-// Updated goal response schema for fetching all goals
 const goalResponseallSchema = {
     type: 'object',
     properties: {
@@ -28,21 +27,61 @@ const goalResponseallSchema = {
     },
 };
 
-// Schema for goal creation request
 const createGoalRequestSchema = {
     type: 'object',
     properties: {
-        name: { type: 'string' },
-        description: { type: 'string' },
-        start_date: { type: 'string', format: 'date-time' },
-        end_date: { type: 'string', format: 'date-time' },
-        roadmap_id: { type: 'integer' },
-        tag_id: { type: 'integer' },
+      goal: {
+        type: 'object',
+        properties: {
+          name: { type: 'string' },
+          description: { type: 'string' },
+          start_date: { type: 'string', format: 'date-time' },
+          end_date: { type: 'string', format: 'date-time' },
+          roadmap_id: { type: 'integer' },
+          tag_id: { type: 'integer' },
+        },
+        required: ['name', 'description', 'start_date', 'end_date', 'roadmap_id', 'tag_id']
+      },
+      goalmembers: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            member_id: { type: 'integer' },
+            is_owner: { type: 'boolean' },
+            is_assignee: { type: 'boolean' },
+          },
+          required: ['member_id', 'is_owner', 'is_assignee']
+        }
+      },
+      phasesData: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            name: { type: 'string' },
+            goal_id: { type: 'integer' },
+            start_date: { type: 'string', format: 'date-time' },
+            end_date: { type: 'string', format: 'date-time' },
+            members: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  member_id: { type: 'integer' }
+                },
+                required: ['member_id']
+              }
+            }
+          },
+          required: ['name', 'goal_id', 'start_date', 'end_date', 'members']
+        }
+      }
     },
-    required: ['name', 'description', 'start_date', 'end_date', 'roadmap_id', 'tag_id'],
-};
+    required: ['goal', 'goalmembers', 'phasesData']
+  };
+  
 
-// Schema for goal deletion request
 const goaldeleterequest = {
     type: 'object',
     properties: {
@@ -52,7 +91,6 @@ const goaldeleterequest = {
     required: ['goalID', 'userID'],
 };
 
-// Success response for goal deletion
 const goaldeleteresponse = {
     type: 'object',
     properties: {
@@ -61,7 +99,6 @@ const goaldeleteresponse = {
     },
 };
 
-// Error response for goal not found
 const goaldeleteresponse404 = {
     type: 'object',
     properties: {
@@ -70,7 +107,6 @@ const goaldeleteresponse404 = {
     },
 };
 
-// Update goal request schema
 const goalupdaterequest = {
     type: 'object',
     properties: {
@@ -85,7 +121,14 @@ const goalupdaterequest = {
     required: ['goalID'],
 };
 
-// Success response for goal update
+const goaladdresponse = {
+
+}
+
+const goaladd404 = {
+    
+}
+
 const goalupdateresponse = {
     type: 'object',
     properties: {
@@ -94,7 +137,6 @@ const goalupdateresponse = {
     },
 };
 
-// Error response for goal update failure
 const goalupdateresponse404 = {
     type: 'object',
     properties: {
@@ -110,6 +152,9 @@ module.exports = {
     goaldeleteresponse,
     goaldeleteresponse404,
     goalupdaterequest,
+    goalupdaterequest,
     goalupdateresponse,
     goalupdateresponse404,
-};
+    goaladdresponse,
+    goaladd404
+}

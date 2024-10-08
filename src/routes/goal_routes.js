@@ -1,6 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const { goalsPost, getallgoals, getgoalById, deleteGoal, editGoal } = require('../controllers/goals_controller');
+const {
+    goalsPost,
+    getallgoals,
+    getgoalById,
+    deleteGoal,
+    editGoal,
+} = require('../controllers/goals_controller');
+
+// OpenAPI Schemas
+
+
+
+// API Routes and OpenAPI Documentation
+
 /**
  * @openapi
  * /allgoal:
@@ -14,36 +27,44 @@ const { goalsPost, getallgoals, getgoalById, deleteGoal, editGoal } = require('.
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/goalResponseallSchema'
+ *              $ref: '#/schemas/goalResponseallSchema'
  *      403:
  *        description: Internal Server Error
  */
 router.get('/allgoal', getallgoals);
+
 /**
  * @openapi
- * /allgoal/:id:
+ * /allgoal/{id}:
  *  get:
  *    tags:
  *    - Goals
- *    summary: To get all goals by id
+ *    summary: To get goal by ID
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        schema:
+ *          type: integer
  *    responses:
  *      200:
  *        description: Data Successfully extracted
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/goalResponsebyidSchema'
+ *              $ref: '#/schemas/goalResponsebyidSchema'
  *      403:
  *        description: Internal Server Error
  */
 router.get('/allgoal/:id', getgoalById);
+
 /**
  * @openapi
  * /creategoal:
  *  post:
  *    tags:
  *    - Goals
- *    summary: create add members in goal
+ *    summary: Create a goal
  *    requestBody:
  *      required: true
  *      content:
@@ -52,7 +73,7 @@ router.get('/allgoal/:id', getgoalById);
  *            $ref: '#/components/schemas/createGoalRequestSchema'
  *    responses:
  *      200:
- *        description: user data created
+ *        description: Goal created successfully
  *        content:
  *          application/json:
  *            schema:
@@ -72,7 +93,7 @@ router.post('/creategoal', goalsPost);
  *  put:
  *    tags:
  *    - Goals
- *    summary: Delete goals
+ *    summary: Soft delete a goal
  *    requestBody:
  *      required: true
  *      content:
@@ -81,7 +102,7 @@ router.post('/creategoal', goalsPost);
  *            $ref: '#/components/schemas/goaldeleterequest'
  *    responses:
  *      200:
- *        description: user data created
+ *        description: Goal deleted successfully
  *        content:
  *          application/json:
  *            schema:
@@ -101,7 +122,7 @@ router.put('/goal/soft-delete', deleteGoal);
  *  put:
  *    tags:
  *    - Goals
- *    summary: update goals
+ *    summary: Update a goal
  *    requestBody:
  *      required: true
  *      content:
@@ -110,13 +131,13 @@ router.put('/goal/soft-delete', deleteGoal);
  *            $ref: '#/components/schemas/goalupdaterequest'
  *    responses:
  *      200:
- *        description: user data created
+ *        description: Goal updated successfully
  *        content:
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/goalupdateresponse'
  *      403:
- *        description: Error deleting goal
+ *        description: Error updating goal
  *        content:
  *          application/json:
  *            schema:
@@ -124,6 +145,4 @@ router.put('/goal/soft-delete', deleteGoal);
  */
 router.put('/editgoal', editGoal);
 
-
-
-module.exports = router
+module.exports = router;
