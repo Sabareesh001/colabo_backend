@@ -1,6 +1,15 @@
 const { where } = require("sequelize");
 const { phases } = require("../../models");
 
+
+function ToTitleCase(str) {
+  return str.replace(/\w\S*/g, function (txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+}
+
+
+
 const GetAllphases = async (req, res) => {
   try {
     const phasegetalldata = await phases.findAll({
@@ -27,6 +36,7 @@ const GetPhase = async (req, res) => {
         is_active: true,
         is_deleted: false,
       },
+      // raw: true,     //if in case any of the data is null to get enable this
     });
     if (!phasegetdata) {
       return res.status(404).json({ message: "Phase not found in phase id" });
@@ -48,6 +58,7 @@ const GetPhaseByGoal = async (req, res) => {
         is_active: true,
         is_deleted: false,
       },
+      // raw: true,     //if in case any of the data is null to get enable this
     });
     if (phasedata.length === 0) {
       return res
@@ -70,16 +81,20 @@ const AddPhases = async (req, res) => {
       const { name, goal_id, start_date, end_date } = phase;
 
       const existingPhase = await phases.findOne({
-        where: { goal_id: goal_id, name: name },
-        raw: true,
+        where: { goal_id: goal_id, name: ToTitleCase(name) },
+        // raw: true,     //if in case any of the data is null to get enable this
       });
 
       if (existingPhase) {
-        throw new Error(`Validation Error: name already exist for this goal`);
+        return res.status(400).json({
+          message: "Validation Error: name already exist for this goal",
+        });
       }
 
       if (!name || !goal_id || !start_date || !end_date) {
-        throw new Error(`Validation Error: field required`);
+        return res
+          .status(400)
+          .json({ message: "Validation Error: field required" });
       }
 
       const startDate = new Date(start_date);
@@ -89,19 +104,22 @@ const AddPhases = async (req, res) => {
         startDate.getHours() === endDate.getHours() &&
         startDate.getMinutes() === endDate.getMinutes()
       ) {
-        throw new Error(
-          `Validation Error: date and time cannot be the same in phase`
-        );
+        return res.status(400).json({
+          message:
+            "Validation Error: date and time cannot be the same in phase",
+        });
       }
 
       if (startDate > endDate) {
-        throw new Error(
-          `Validation Error: 'start_date' must be before 'end_date' in phase`
-        );
+        return res.status(400).json({
+          message:
+            "Validation Error: 'start_date' must be before 'end_date' in phase",
+        });
       }
 
       phasedata.push({
         ...phase,
+        name: ToTitleCase(name),
         is_closed: false,
         is_active: true,
         is_deleted: false,
