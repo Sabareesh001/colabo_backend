@@ -12,7 +12,7 @@ module.exports = {
       type: {
         type: Sequelize.INTEGER,
         references: {
-          model: "action_time_variance_reasons",
+          model: "master_time_variance_reasons_types",
           key: "id",
         },
         onDelete: "cascade",

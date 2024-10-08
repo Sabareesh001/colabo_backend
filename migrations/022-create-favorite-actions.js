@@ -5,9 +5,9 @@ module.exports = {
     await queryInterface.createTable("favorite_actions", {
       id: {
         allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
         type: Sequelize.UUID,
+        primaryKey: true,
+        defaultValue: Sequelize.UUIDV4, 
       },
       action_id: {
         type: Sequelize.UUID,

@@ -2,21 +2,15 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("action_time_variance_reasons", {
+    await queryInterface.createTable("action_tasks", {
       id: {
         allowNull: false,
-        autoIncrement: true,
+        type: Sequelize.UUID,
         primaryKey: true,
-        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4, 
       },
-      variance_reason_id: {
-        type: Sequelize.UUID,
-        references: {
-          model: "master_time_variance_reasons",
-          key: "id",
-        },
-        onDelete: 'cascade',
-        onUpdate: 'cascade',
+      name: {
+        type: Sequelize.STRING,
       },
       action_id: {
         type: Sequelize.UUID,
@@ -27,8 +21,18 @@ module.exports = {
         onDelete: 'cascade',
         onUpdate: 'cascade',
       },
-      reason_for_variance: {
-        type: Sequelize.STRING,
+      custom_est_time:{
+        type: Sequelize.DECIMAL(10,2),
+      },
+      est_time_id:{
+        type: Sequelize.INTEGER,
+      },
+      act_time:{
+        type: Sequelize.INTEGER,
+      },
+      is_closed: {
+        type: Sequelize.BOOLEAN,
+        defaultValue:false
       },
       is_deleted: {
         type: Sequelize.BOOLEAN,
@@ -46,6 +50,7 @@ module.exports = {
       },
       deleted_at: {
         type: Sequelize.DATE,
+        defaultValue:null
       },
       created_by: {
         type: Sequelize.UUID,
@@ -71,6 +76,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("action_time_variance_reasons");
+    await queryInterface.dropTable("action_tasks");
   },
 };

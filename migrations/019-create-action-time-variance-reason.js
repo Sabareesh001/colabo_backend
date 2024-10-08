@@ -2,77 +2,33 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("actions", {
+    await queryInterface.createTable("action_time_variance_reasons", {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
         type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4, 
       },
-      name: {
-        type: Sequelize.STRING,
-      },
-      description: {
-        type: Sequelize.STRING,
-      },
-      start_date: {
-        type: Sequelize.DATE,
-      },
-      end_date: {
-        type: Sequelize.DATE,
-      },
-      custom_est_time:{
-        type:Sequelize.DECIMAL(10,2),
-      },
-      est_time_id: {
+      variance_reason_id: {
         type: Sequelize.INTEGER,
-      },
-      act_time: {
-        type: Sequelize.INTEGER,
-      },
-      status: {
-        type: Sequelize.BOOLEAN,
-      },
-      priority: {
-        type: Sequelize.UUID,
         references: {
-          model: "master_action_priorities",
+          model: "master_time_variance_reasons",
           key: "id",
         },
         onDelete: 'cascade',
         onUpdate: 'cascade',
       },
-      goal_id: {
-        type: Sequelize.UUID,
-        references:{
-          model:'goals',
-          key:'id'
-        },
-        onDelete: 'cascade',
-        onUpdate: 'cascade',
-      },
-      action_type_id: {
+      action_id: {
         type: Sequelize.UUID,
         references: {
-          model: "master_action_types",
-          key: "id",
-        },
-      },
-      goal_phase_id: {
-        type: Sequelize.UUID,
-        references: {
-          model: "phases",
-          key: "id",
-        },
-      },
-      action_type_status_id: {
-        type: Sequelize.UUID,
-        references: {
-          model: "master_action_type_statuses",
+          model: "actions",
           key: "id",
         },
         onDelete: 'cascade',
         onUpdate: 'cascade',
+      },
+      reason_for_variance: {
+        type: Sequelize.STRING,
       },
       is_deleted: {
         type: Sequelize.BOOLEAN,
@@ -90,7 +46,6 @@ module.exports = {
       },
       deleted_at: {
         type: Sequelize.DATE,
-        defaultValue:null,
       },
       created_by: {
         type: Sequelize.UUID,
@@ -98,7 +53,6 @@ module.exports = {
           model: "users",
           key: "id",
         },
-        defaultValue:null,
         onDelete: 'cascade',
         onUpdate: 'cascade',
       },
@@ -110,9 +64,13 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+      is_active: {
+        type: Sequelize.BOOLEAN,
+        defaultValue:true
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("actions");
+    await queryInterface.dropTable("action_time_variance_reasons");
   },
 };

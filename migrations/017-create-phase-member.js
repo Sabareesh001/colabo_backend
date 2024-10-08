@@ -2,39 +2,27 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('goals', {
+    await queryInterface.createTable('phase_members', {
       id: {
         allowNull: false,
-        autoIncrement: true,
+        type: Sequelize.UUID,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        defaultValue: Sequelize.UUIDV4, 
       },
-      name: {
-        type: Sequelize.STRING
-      },
-      description: {
-        type: Sequelize.STRING
-      },
-      start_date: {
-        type: Sequelize.DATE
-      },
-      end_date: {
-        type: Sequelize.DATE
-      },
-      roadmap_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'master_goal_roadmaps',
-          key: 'id'
+      phase_id: {
+        type: Sequelize.UUID,
+        references:{
+          model:'phases',
+          key:'id'
         },
         onDelete: 'cascade',
         onUpdate: 'cascade',
       },
-      tag_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'tags',
-          key: 'id'
+      member_id: {
+        type: Sequelize.UUID,
+        references:{
+          model:'users',
+          key:'id'
         },
         onDelete: 'cascade',
         onUpdate: 'cascade',
@@ -48,39 +36,39 @@ module.exports = {
         defaultValue:false
       },
       deleted_by: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'users',
-          key: 'id',
+        type: Sequelize.UUID,
+        references:{
+          model:'users',
+          key:'id'
         },
+        defaultValue:null,
         onDelete: 'cascade',
         onUpdate: 'cascade',
-        defaultValue:null
       },
       deleted_at: {
         type: Sequelize.DATE,
         defaultValue:null
       },
       created_by: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'users',
-          key: 'id',
+        type: Sequelize.UUID,
+        references:{
+          model:'users',
+          key:'id'
         },
         onDelete: 'cascade',
         onUpdate: 'cascade',
       },
-      created_at: {
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updated_at: {
+      updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
       }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('goals');
+    await queryInterface.dropTable('phase_members');
   }
 };
