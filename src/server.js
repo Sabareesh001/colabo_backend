@@ -14,10 +14,9 @@ const goalmembers = require("./routes/goal_members_routes")
 
 
 const db = require('../models');
-const swaggerDocs = require('./utils/swagger');
-
+const swaggerDocs= require('./utils/swagger')
 const app = express();
-
+swaggerDocs(app,8080)
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -35,11 +34,11 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 8080, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
   try {
     db.sequelize.authenticate()
-    swaggerDocs(app, process.env.PORT)
+    swaggerDocs(app, process.env.PORT || 8080)
     console.log("Database Connection established successfully.");
   } catch (error) {
     console.error("Unable to connect to the database:", error);
