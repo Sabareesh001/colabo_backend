@@ -4,12 +4,12 @@ const {
   Sequelize
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class MasterUserRole extends Model {
+  class master_time_variance_reasons_types extends Model {
     static associate(models) {
-      this.hasMany(models.users,{foreignKey:"role" ,as:"role"})
+      this.hasMany(models.master_time_variance_reasons,{foreignKey:"type"});
     }
   }
-  MasterUserRole.init({
+  master_time_variance_reasons_types.init({
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'master_user_roles',
+    modelName: 'master_time_variance_reasons_types',
   });
-  return MasterUserRole;
+  return master_time_variance_reasons_types;
 };

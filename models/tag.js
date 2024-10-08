@@ -1,30 +1,63 @@
 'use strict';
 const {
-  Model
+  Model,
+  Sequelize
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Tag extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       this.belongsTo(models.users, { foreignKey: 'deleted_by' });
+      this.belongsTo(models.users, { foreignKey: 'created_by' });
+      this.hasMany(models.goals, { foreignKey: 'tag_id' });
     }
   }
   Tag.init({
-    name: DataTypes.STRING,
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: Sequelize.UUID
+    },
+    name: {
+      type: Sequelize.STRING
+    },
     is_active: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: true
+      type: Sequelize.BOOLEAN,
+      defaultValue:true
     },
     is_deleted: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
+      type: Sequelize.BOOLEAN
     },
-    deleted_by: DataTypes.INTEGER,
-    deleted_at: DataTypes.DATE
+    deleted_by: {
+      type: Sequelize.UUID,
+      references:{
+        model:'users',
+        key:'id'
+      },
+      onDelete: 'cascade',
+      onUpdate: 'cascade',
+      defaultValue:null
+    },
+    created_by: {
+      type: Sequelize.UUID,
+      references:{
+        model:'users',
+        key:'id'
+      },
+      onDelete: 'cascade',
+      onUpdate: 'cascade',
+    },
+    deleted_at: {
+      type: Sequelize.DATE
+    },
+    created_at: {
+      allowNull: false,
+      type: Sequelize.DATE
+    },
+    updated_at: {
+      allowNull: false,
+      type: Sequelize.DATE
+    }
   }, {
     sequelize,
     modelName: 'tags',

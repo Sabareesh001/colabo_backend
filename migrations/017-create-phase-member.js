@@ -5,40 +5,58 @@ module.exports = {
     await queryInterface.createTable('phase_members', {
       id: {
         allowNull: false,
-        autoIncrement: true,
+        type: Sequelize.UUID,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        defaultValue: Sequelize.UUIDV4, 
       },
       phase_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references:{
-          model:'phases'
+          model:'phases',
+          key:'id'
         },
-        key:'id'
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
       },
       member_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references:{
-          model:'users'
+          model:'users',
+          key:'id'
         },
-        key:'id'
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
       },
       is_active: {
         type: Sequelize.BOOLEAN,
         defaultValue:true
       },
       is_deleted: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue:false
       },
       deleted_by: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references:{
-          model:'users'
+          model:'users',
+          key:'id'
         },
-        key:'id'
+        defaultValue:null,
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
       },
       deleted_at: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue:null
+      },
+      created_by: {
+        type: Sequelize.UUID,
+        references:{
+          model:'users',
+          key:'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
       },
       createdAt: {
         allowNull: false,

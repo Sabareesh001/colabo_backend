@@ -5,9 +5,9 @@ module.exports = {
     await queryInterface.createTable('users', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4, 
       },
       name: {
         type: Sequelize.STRING
@@ -15,26 +15,30 @@ module.exports = {
       role: {
         type: Sequelize.INTEGER,
         references:{
-          model:'master_user_roles'
+          model:'master_user_roles',
+          key:'id'
         },
-        key:'id'
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
       },
       user_status: {
         type: Sequelize.INTEGER,
         references:{
-          model:'master_user_statuses'
+          model:'master_user_statuses',
+          key:'id'
         },
-        key:'id'
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
       },
       is_active: {
         type: Sequelize.BOOLEAN,
         defaultValue:true
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       }
