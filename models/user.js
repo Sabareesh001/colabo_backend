@@ -13,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.master_user_roles, { foreignKey: 'role' });
       this.belongsTo(models.master_user_statuses, { foreignKey: 'user_status' });
       this.hasMany(models.phases,{foreignKey:"deleted_by"});
+      this.hasMany(models.phase_members,{foreignKey:"deleted_by"});
+      this.hasMany(models.phase_members,{foreignKey:"member_id"});
+
     }
   }
   User.init({

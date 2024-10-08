@@ -36,7 +36,8 @@ module.exports = {
         key: 'id'
       },
       is_active: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue:true
       },
       is_deleted: {
         type: Sequelize.BOOLEAN
