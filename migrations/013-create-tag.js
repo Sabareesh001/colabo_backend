@@ -5,35 +5,35 @@ module.exports = {
     await queryInterface.createTable('tags', {
       id: {
         allowNull: false,
-        type: Sequelize.UUID,
         primaryKey: true,
-        defaultValue: Sequelize.UUIDV4, 
+        type: Sequelize.INTEGER,
+        autoIncrement:true,
       },
       name: {
         type: Sequelize.STRING
       },
       is_active: {
         type: Sequelize.BOOLEAN,
-        defaultValue:true
+        defaultValue: true
       },
       is_deleted: {
         type: Sequelize.BOOLEAN
       },
       deleted_by: {
-        type: Sequelize.UUID,
-        references:{
-          model:'users',
-          key:'id'
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'users',
+          key: 'id'
         },
         onDelete: 'cascade',
         onUpdate: 'cascade',
-        defaultValue:null
+        defaultValue: null
       },
       created_by: {
-        type: Sequelize.UUID,
-        references:{
-          model:'users',
-          key:'id'
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'users',
+          key: 'id'
         },
         onDelete: 'cascade',
         onUpdate: 'cascade',
@@ -43,14 +43,17 @@ module.exports = {
       },
       created_at: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updated_at: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     });
   },
+  
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('tags');
   }

@@ -5,15 +5,15 @@ module.exports = {
     await queryInterface.createTable('phases', {
       id: {
         allowNull: false,
-        type: Sequelize.UUID,
         primaryKey: true,
-        defaultValue: Sequelize.UUIDV4, 
+        type: Sequelize.INTEGER,
+        autoIncrement:true,
       },
       name: {
         type: Sequelize.STRING
       },
       goal_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references:{
           model:'goals',
           key:'id'
@@ -40,7 +40,7 @@ module.exports = {
         defaultValue:false,
       },
       deleted_by: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references:{
           model:'users',
           key:'id'
@@ -53,7 +53,7 @@ module.exports = {
         defaultValue:null
       },
       created_by: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references:{
           model:'users',
           key:'id'

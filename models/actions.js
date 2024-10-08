@@ -24,9 +24,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
+        autoIncrement:true,
       },
       name: {
         type: Sequelize.STRING,
@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
         type: Sequelize.DECIMAL(10, 2),
       },
       est_time_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: "master_durations",
           key: "id",
@@ -56,7 +56,7 @@ module.exports = (sequelize, DataTypes) => {
         type: Sequelize.INTEGER,
       },
       status: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: "master_action_statuses",
           key: "id",
@@ -65,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: "cascade",
       },
       priority: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: "master_action_priorities",
           key: "id",
@@ -74,7 +74,7 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: "cascade",
       },
       goal_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: "goals",
           key: "id",
@@ -83,21 +83,21 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: "cascade",
       },
       action_type_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: "master_action_types",
           key: "id",
         },
       },
       goal_phase_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: "phases",
           key: "id",
         },
       },
       action_type_status_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: "master_action_type_statuses",
           key: "id",
@@ -110,7 +110,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: false,
       },
       deleted_by: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: "users",
           key: "id",
@@ -124,7 +124,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: null,
       },
       created_by: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: "users",
           key: "id",

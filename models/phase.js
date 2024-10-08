@@ -14,15 +14,15 @@ module.exports = (sequelize, DataTypes) => {
     {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.UUID
+        type: Sequelize.INTEGER,
+        autoIncrement:true,
       },
       name: {
         type: Sequelize.STRING
       },
       goal_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references:{
           model:'goals',
           key:'id'
@@ -49,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue:false,
       },
       deleted_by: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references:{
           model:'users',
           key:'id'
@@ -62,7 +62,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue:null
       },
       created_by: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references:{
           model:'users',
           key:'id'

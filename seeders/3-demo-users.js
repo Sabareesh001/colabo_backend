@@ -1,41 +1,45 @@
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('users', [
+    return queryInterface.bulkInsert("users", [
       {
-        name: 'Sabareesh',
+        id:1,
+        name: "Sabareesh",
         role: 1,
-        is_active:true,
-        user_status:1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        is_active: true,
+        user_status: 1,
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
-        name: 'Girish',
+        id:2,
+        name: "Girish",
         role: 2,
-        is_active:true,
-        user_status:1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        is_active: true,
+        user_status: 1,
+        created_at: new Date(),
+        updated_at: new Date(),
       },
-      {
-        name: 'Udhaya',
+      { id:3,
+        name: "Udhaya",
         role: 3,
-        is_active:true,
-        user_status:1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        is_active: true,
+        user_status: 1,
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
-        name: 'Suresh',
+        id:4,
+        name: "Suresh",
         role: 4,
-        is_active:true,
-        user_status:1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        is_active: true,
+        user_status: 1,
+        created_at: new Date(),
+        updated_at: new Date(),
       },
     ]);
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('users', null, {});
+    return queryInterface.bulkDelete("users", null, {});
   },
 };

@@ -6,8 +6,8 @@ module.exports = {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4, 
+        type: Sequelize.INTEGER,
+        autoIncrement:true,
       },
       variance_reason_id: {
         type: Sequelize.INTEGER,
@@ -19,7 +19,7 @@ module.exports = {
         onUpdate: 'cascade',
       },
       action_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: "actions",
           key: "id",
@@ -35,7 +35,7 @@ module.exports = {
         defaultValue:false
       },
       deleted_by: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: "users",
           key: "id",
@@ -48,7 +48,7 @@ module.exports = {
         type: Sequelize.DATE,
       },
       created_by: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: "users",
           key: "id",

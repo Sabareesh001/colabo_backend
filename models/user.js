@@ -39,15 +39,15 @@ module.exports = (sequelize, DataTypes) => {
   User.init({
     id: {
       allowNull: false,
-      autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.UUID
+      type: Sequelize.INTEGER,
+      autoIncrement:true,
     },
     name: {
       type: Sequelize.STRING
     },
     role: {
-      type: Sequelize.UUID,
+      type: Sequelize.INTEGER,
       references:{
         model:'master_user_roles',
         key:'id'
@@ -56,7 +56,7 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'cascade',
     },
     user_status: {
-      type: Sequelize.UUID,
+      type: Sequelize.INTEGER,
       references:{
         model:'master_user_statuses',
         key:'id'

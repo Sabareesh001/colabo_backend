@@ -15,12 +15,12 @@ module.exports = (sequelize, DataTypes) => {
   action_task_members.init({
     id: {
       allowNull: false,
-      autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.UUID,
+      type: Sequelize.INTEGER,
+      autoIncrement:true,
     },
     task_id: {
-      type: Sequelize.UUID,
+      type: Sequelize.INTEGER,
       references: {
         model: "action_tasks",
         key: "id",
@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'cascade',
     },
     member_id: {
-      type: Sequelize.UUID,
+      type: Sequelize.INTEGER,
       references: {
         model: "users",
         key: "id",
@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue:false
     },
     deleted_by: {
-      type: Sequelize.UUID,
+      type: Sequelize.INTEGER,
       references: {
         model: "users",
         key: "id",
@@ -55,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue:null
     },
     created_by: {
-      type: Sequelize.UUID,
+      type: Sequelize.INTEGER,
       references: {
         model: "users",
         key: "id",

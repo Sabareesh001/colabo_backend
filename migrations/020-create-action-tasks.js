@@ -5,15 +5,15 @@ module.exports = {
     await queryInterface.createTable("action_tasks", {
       id: {
         allowNull: false,
-        type: Sequelize.UUID,
         primaryKey: true,
-        defaultValue: Sequelize.UUIDV4, 
+        type: Sequelize.INTEGER,
+        autoIncrement:true,
       },
       name: {
         type: Sequelize.STRING,
       },
       action_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: "actions",
           key: "id",
@@ -39,7 +39,7 @@ module.exports = {
         defaultValue:false
       },
       deleted_by: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: "users",
           key: "id",
@@ -53,7 +53,7 @@ module.exports = {
         defaultValue:null
       },
       created_by: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: "users",
           key: "id",

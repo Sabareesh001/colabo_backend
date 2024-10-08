@@ -5,12 +5,13 @@ module.exports = {
     await queryInterface.createTable("action_task_members", {
       id: {
         allowNull: false,
-        type: Sequelize.UUID,
         primaryKey: true,
-        defaultValue: Sequelize.UUIDV4, 
+        
+        type: Sequelize.INTEGER,
+        autoIncrement:true,
       },
       task_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: "action_tasks",
           key: "id",
@@ -18,7 +19,7 @@ module.exports = {
         onUpdate: 'cascade',
       },
       member_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: "users",
           key: "id",
@@ -31,7 +32,7 @@ module.exports = {
         defaultValue:false
       },
       deleted_by: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: "users",
           key: "id",
@@ -45,7 +46,7 @@ module.exports = {
         defaultValue:null
       },
       created_by: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: "users",
           key: "id",
