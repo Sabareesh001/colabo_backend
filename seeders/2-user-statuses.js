@@ -2,6 +2,7 @@ module.exports = {
     up: (queryInterface, Sequelize) => {
       return queryInterface.bulkInsert('master_user_statuses', [
         {
+          id:1,
           name: 'Active',
           is_active: true,
           createdAt: new Date(),
